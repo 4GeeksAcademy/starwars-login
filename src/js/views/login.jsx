@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Await, Link, Navigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import imagen from "../../img/how-to.png";
-
+import { useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ReactDOM from "react-dom";
 export const Login = props => {
 
     const { store, actions } = useContext(Context);
@@ -11,6 +13,10 @@ export const Login = props => {
     const [loginST, setLoginST] = useState("active")
     const [register, setRegister] = useState("")
     const [registerST, setRegisterST] = useState("")
+    const [Email, setEmail] = useState("")
+    const [Password, setPassword] = useState("")
+    const navigate = useNavigate();
+
 
 
 
@@ -33,6 +39,17 @@ export const Login = props => {
         }
     }
 
+    async function handleSubmit(e) {
+        e.preventDefault()
+        console.log(Email, Password);
+        let logeed = await actions.CrearUsuario(Email, Password);
+        if (logeed === true) {
+            navigate("/demo")
+
+        }
+
+
+    }
 
     return (
         <div className="container bg-dark bg-opacity-75 text-white">
@@ -52,16 +69,16 @@ export const Login = props => {
 
             <div className="tab-content">
                 <div className={"tab-pane fade " + login} id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-                    <form>
-                        
+                    <form onSubmit={handleSubmit}>
+
                         <div className="form-outline mb-4">
-                            <input type="email" id="loginName" className="form-control" />
+                            <input type="email" id="loginName" className="form-control" onChange={(e) => setEmail(e.target.value)} />
                             <label className="form-label" htmlFor="loginName">Email or username</label>
                         </div>
 
 
                         <div className="form-outline mb-4">
-                            <input type="password" id="loginPassword" className="form-control" />
+                            <input type="password" id="loginPassword" className="form-control" onChange={(e) => setPassword(e.target.value)} />
                             <label className="form-label" htmlFor="loginPassword">Password</label>
                         </div>
 
@@ -101,7 +118,7 @@ export const Login = props => {
                         </div>
 
                         <button type="submit" className="btn btn-outline-warning ml-auto">Sign in</button>
-{/* 
+                        {/* 
                         <div className="text-center">
                             <p>Not a member? <a href="#!">Register</a></p>
                         </div> */}
@@ -109,7 +126,7 @@ export const Login = props => {
                 </div>
                 <div className={"tab-pane fade " + register} id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                     <form>
-                        
+
                         <div className="form-outline mb-4">
                             <input type="text" id="registerName" className="form-control" />
                             <label className="form-label" htmlFor="registerName">Name</label>

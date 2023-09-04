@@ -1,4 +1,6 @@
+import axios from "axios";
 const getState = ({ getStore, getActions, setStore }) => {
+
 	return {
 		store: {
 
@@ -9,6 +11,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			autos: [],
 			detallesAuto: {},
 			favorito: [],
+			/* auth: [], */
 
 		},
 		actions: {
@@ -180,13 +183,68 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			//devuelve el color origign del boton de corrazon 
 			CambiarColor: (nom) => {
 
 				document.getElementById(nom).className = "far fa-heart"
 
-			}
+			},
+
+			CrearUsuario: async (email, password) => {
+
+				try {
+
+					let data = await axios.post('https://sturdy-broccoli-jv7577j56q4fpw6x-3000.app.github.dev/login',
+						{
+
+							"email": email,
+							"password": password
+
+						})
+					console.log(data)
+					localStorage.setItem("token", data.data.access_token);
+
+					return true;
+
+				} catch (error) {
+					console.log(error);
+
+					if (error.response.status === 484) {
+						alert("el usuario no existe ")
+					}
+
+					if (error.response.status === 401) {
+						alert("la contraseña no existe")
+					}
+					return false;
+				}
+			},
+
+			get_Demo: async () => {
+
+				let token = localStorage.getItem("token")
+				try {
+
+					let data = await axios.post('https://sturdy-broccoli-jv7577j56q4fpw6x-3000.app.github.dev/demo', {
+						headers: { 'Authorization': 'Bearer ' + token },
+					})
+					console.log(data)
+					localStorage.setItem("token", data.data.access_token);
+
+					return true;
+				} catch (error) {
+					console.log(error);
+					if (error.response.status === 401) {
+
+
+					}
+					return false;
+				}
+			},
+
 
 		}
+
 	};
 };
 
