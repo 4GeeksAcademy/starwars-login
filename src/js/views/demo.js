@@ -4,23 +4,36 @@ import { HomeCardPers } from "../component/cardHomePers.jsx";
 import { HomeCardPlanet } from "../component/cardHomePlanet.jsx";
 import { HomeCardCar } from "../component/cardHomeCar.jsx";
 import { Context } from "../store/appContext";
-
+import { useNavigate } from "react-router-dom";
 
 export const Demo = () => {
+	
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
+
+	function volverlogin() {
+
+		if (store.auth === false) {
+			navigate("/login")
+		}
+	}
 
 	useEffect(() => {
 		actions.obtenerInfohome(),
 			actions.obtenerInfoPlaneta(),
 			actions.obtenerAutos()
-
-	}, [])
-
-	useEffect(() => {
 		actions.get_Demo()
+		volverlogin()
 	}, [])
 
+
+	/* 	useEffect(() => {
+			volverlogin()
+			localStorage.removeItem("token")
+		}, [store.auth])
+	
+	 */
 
 	useEffect(function () {
 		/* 	actions.actualizar() */

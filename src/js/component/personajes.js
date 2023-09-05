@@ -3,17 +3,36 @@ import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import personajes from "../../styles/personajes.css"
+import { useNavigate } from "react-router-dom"
 
 
 export const Personajes = props => {
   const { store, actions } = useContext(Context);
   const params = useParams();
+  const navigate = useNavigate();
 
-  console.log( store.detallepeople.height);
-  console.log("holamiamor");
+  console.log(store.detallepeople.height);
+
 
   useEffect(() => {
     actions.obtenerInfoPerSingle(params.theid)
+  }, [])
+
+  function volverlogin() {
+
+    if (store.auth === false) {
+      navigate("/login")
+    }
+  }
+
+
+  useEffect(() => {
+    console.log("este  :" + store.auth)
+    if (store.auth === false) {
+      navigate("/login")
+      volverlogin()
+    }
+
   }, [])
 
   return (
@@ -23,7 +42,7 @@ export const Personajes = props => {
           <div className="container">
             <div className="row bg-black p-5 bg-gradient bg-opacity-75">
               <div className="col-md-6">
-                <img src={"https://starwars-visualguide.com/assets/img/characters/" + (params.theid + 1) + ".jpg"} style={{width:"100%"}} />
+                <img src={"https://starwars-visualguide.com/assets/img/characters/" + (params.theid + 1) + ".jpg"} style={{ width: "100%" }} />
               </div>
               <div className="col-md-6 p-5 text-white" style={{ marginBottom: "300px" }} >
                 <h1>{store.detallepeople.name} </h1>

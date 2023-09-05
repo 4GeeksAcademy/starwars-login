@@ -3,14 +3,16 @@ import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import imagen from "../../img/how-to.png";
+import { useNavigate } from "react-router-dom"
 
 export const HomeCardCar = props => {
     const [fav3, setFav3] = useState("far fa-heart");
     const refs3 = useRef([]);
+    const navigate = useNavigate();
 
     const { store, actions } = useContext(Context);
 
-    useEffect(() => {                       
+    useEffect(() => {
         refs3.current = refs3.current.slice(0, props.length); // Maintain the same number of refs as items
     }, [props.length]);
 
@@ -21,6 +23,23 @@ export const HomeCardCar = props => {
 
         actions.cargarFavorito(props.name, props.index);
     };
+
+    function volverlogin() {
+
+        if (store.auth === false) {
+            navigate("/login")
+        }
+    }
+
+
+    useEffect(() => {
+        console.log("este  :" + store.auth)
+        if (store.auth === false) {
+            navigate("/login")
+            volverlogin()
+        }
+
+    }, [])
 
     return (
         <div>
@@ -57,7 +76,7 @@ export const HomeCardCar = props => {
 };
 
 HomeCardCar.propTypes = {
-    
+
     index: PropTypes.number,
     name: PropTypes.string,
     model: PropTypes.string,

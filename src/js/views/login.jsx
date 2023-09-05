@@ -3,9 +3,7 @@ import { Await, Link, Navigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import imagen from "../../img/how-to.png";
-import { useNavigation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import ReactDOM from "react-dom";
 export const Login = props => {
 
     const { store, actions } = useContext(Context);
@@ -18,7 +16,7 @@ export const Login = props => {
     const navigate = useNavigate();
 
 
-
+    
 
 
     function logines() {
@@ -43,6 +41,7 @@ export const Login = props => {
         e.preventDefault()
         console.log(Email, Password);
         let logeed = await actions.CrearUsuario(Email, Password);
+
         if (logeed === true) {
             navigate("/demo")
 

@@ -22,15 +22,19 @@ export const Navbar = () => {
 
 				</a>
 				<div className="dropdown">
-					<button
-						className="btn btn-primary dropdown-toggle" 
-						type="button"
-						id="dropdownMenuButton1"
-						data-bs-toggle="dropdown"
-						aria-expanded="false">
-						Favoritos
-						<span className="badge bg-secondary mx-2">{store.favorito.length}</span>
-					</button>
+
+
+					{store.auth ?
+						<button
+							className="btn btn-primary dropdown-toggle"
+							type="button"
+							id="dropdownMenuButton1"
+							data-bs-toggle="dropdown"
+							aria-expanded="false">
+							Favoritos
+							<span className="badge bg-secondary mx-2">{store.favorito.length}</span>
+						</button> :null
+					}
 					<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 						{store.favorito.map((item, index) => {
 

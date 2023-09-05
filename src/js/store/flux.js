@@ -1,5 +1,8 @@
 import axios from "axios";
+
+
 const getState = ({ getStore, getActions, setStore }) => {
+
 
 	return {
 		store: {
@@ -11,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			autos: [],
 			detallesAuto: {},
 			favorito: [],
-			/* auth: [], */
+			auth: false,
 
 		},
 		actions: {
@@ -203,6 +206,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					console.log(data)
 					localStorage.setItem("token", data.data.access_token);
+					setStore({ auth: true })
 
 					return true;
 
@@ -222,25 +226,65 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			get_Demo: async () => {
 
-				let token = localStorage.getItem("token")
+				let tokenes = localStorage.getItem("token")
+				console.log(tokenes)
 				try {
 
-					let data = await axios.post('https://sturdy-broccoli-jv7577j56q4fpw6x-3000.app.github.dev/demo', {
-						headers: { 'Authorization': 'Bearer ' + token },
+					let data = await axios.get('https://sturdy-broccoli-jv7577j56q4fpw6x-3000.app.github.dev/demo', {
+						headers: { 'Authorization': 'Bearer ' + tokenes }
+
 					})
 					console.log(data)
-					localStorage.setItem("token", data.data.access_token);
-
+					/* localStorage.setItem("token", data.data.access_token);
+ */
 					return true;
 				} catch (error) {
 					console.log(error);
-					if (error.response.status === 401) {
-
+					if (error.response.status >= 401) {
 
 					}
 					return false;
 				}
 			},
+
+			valid_token: async () => {
+				const store = getStore();
+				let tokenes = localStorage.getItem("token")
+				console.log(tokenes)
+				try {
+
+					let data = await axios.get('https://sturdy-broccoli-jv7577j56q4fpw6x-3000.app.github.dev/valid-token', {
+						headers: { 'Authorization': 'Bearer ' + tokenes }
+
+
+					})
+
+					console.log(data)
+
+					return true;
+				} catch (error) {
+					console.log(error);
+
+					setStore({ auth: false })
+
+					console.log(store.auth)
+
+					if (error.response.status > 400) {
+						alert("el token expiro")
+
+					}
+					return false;
+				}
+			},
+
+			recargarPagina: async () => {
+				const store = getStore();
+				store.auth = false
+				localStorage.removeItem("token")
+
+			},
+
+
 
 
 		}
