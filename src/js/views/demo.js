@@ -15,7 +15,7 @@ export const Demo = () => {
 	function volverlogin() {
 
 		if (store.auth === false) {
-			navigate("/login#pills-login")
+			navigate("/login")
 		}
 	}
 

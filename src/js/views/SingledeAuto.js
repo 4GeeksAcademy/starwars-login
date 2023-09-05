@@ -22,7 +22,7 @@ export const SingleAuto = () => {
     function volverlogin() {
 
         if (store.auth === false) {
-            navigate("/login#pills-login")
+            navigate("/login")
         }
     }
 
