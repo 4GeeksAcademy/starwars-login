@@ -6,17 +6,30 @@ import imagen from "../../img/how-to.png";
 import { useNavigate } from "react-router-dom";
 export const Login = props => {
 
+
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+
+    /* -------------- <botones de login y registro> --------------------------*/
     const [login, setLogin] = useState("show active")
     const [loginST, setLoginST] = useState("active")
     const [register, setRegister] = useState("")
     const [registerST, setRegisterST] = useState("")
+    /* -------------- </botones de login y registro> ------------------------*/
+
+    /* -------------- <inputs del login> ------------------------------------*/
     const [Email, setEmail] = useState("")
     const [Password, setPassword] = useState("")
-    const navigate = useNavigate();
+    /* -------------- </inputs del login> -----------------------------------*/
 
+    /* -------------- <inputs del registro> ------------------------------------*/
+    const [nameR, setNamer] = useState("")
+    const [user_nameR, setUser_namer] = useState("")
+    const [emailR, setEmailr] = useState("")
+    const [passwordR, setPasswordr] = useState("")
+    const [repPasswordR, setrepPasswordr] = useState("")
+    /* -------------- </inputs del registro> -----------------------------------*/
 
-    
 
 
     function logines() {
@@ -27,7 +40,6 @@ export const Login = props => {
             setRegisterST("")
         }
     }
-
     function registeres() {
         if (register == "") {
             setRegister("show active")
@@ -38,21 +50,26 @@ export const Login = props => {
     }
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        console.log(Email, Password);
-        let logeed = await actions.CrearUsuario(Email, Password);
 
-        if (logeed === true) {
-            navigate("/demo")
-
+        if (login === "show active") {
+            e.preventDefault()
+            console.log(Email, Password);
+            let logeed = await actions.logUsuario(Email, Password);
+            if (logeed === true) {
+                navigate("/demo")
+            } else if (register === "show active") {
+                e.preventDefault()
+                console.log(nameR, passwordR, user_nameR, emailR, passwordR);
+                let registeres = await actions.regisUsuario(nameR, passwordR, user_nameR, emailR);
+                console.log(registeres)
+                if (registeres === true) {
+                    navigate("/demo")
+                }
+            }
         }
-
-
     }
-
     return (
         <div className="container bg-dark bg-opacity-75 text-white">
-
             <ul className="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
                 <li className="nav-item" role="presentation">
                     <a className={"nav-link " + loginST} id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
@@ -65,151 +82,107 @@ export const Login = props => {
             </ul>
 
 
-
             <div className="tab-content">
                 <div className={"tab-pane fade " + login} id="pills-login" role="tabpanel" aria-labelledby="tab-login">
                     <form onSubmit={handleSubmit}>
-
                         <div className="form-outline mb-4">
                             <input type="email" id="loginName" className="form-control" onChange={(e) => setEmail(e.target.value)} />
                             <label className="form-label" htmlFor="loginName">Email or username</label>
                         </div>
-
 
                         <div className="form-outline mb-4">
                             <input type="password" id="loginPassword" className="form-control" onChange={(e) => setPassword(e.target.value)} />
                             <label className="form-label" htmlFor="loginPassword">Password</label>
                         </div>
 
-
                         <div className="row mb-4">
                             <div className="col-md-6 d-flex justify-content-center">
-
                                 {/* <div className="form-check mb-3 mb-md-0">
-                                    <input className="form-check-input" type="checkbox" value="" id="loginCheck" defaultChecked />
-                                    <label className="form-check-label" htmlFor="loginCheck"> Remember me </label>
-                                </div> */}
+                                        <input className="form-check-input" type="checkbox" value="" id="loginCheck" defaultChecked />
+                                        <label className="form-check-label" htmlFor="loginCheck"> Remember me </label>
+                                    </div> */}
                             </div>
-
                             {/* <div className="col-md-6 d-flex justify-content-center">
-
-                                <a href="#!">Forgot password?</a>
-                            </div> */}
+                                    <a href="#!">Forgot password?</a>
+                                </div> */}
                         </div>
-
                         <div className="text-center mb-3">
                             <p>Sign in with:</p>
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-facebook-f"></i>
                             </button>
-
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-google"></i>
                             </button>
-
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-twitter"></i>
                             </button>
-
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-github"></i>
                             </button>
                         </div>
-
                         <button type="submit" className="btn btn-outline-warning ml-auto">Sign in</button>
                         {/* 
-                        <div className="text-center">
-                            <p>Not a member? <a href="#!">Register</a></p>
-                        </div> */}
+                            <div className="text-center">
+                                <p>Not a member? <a href="#!">Register</a></p>
+                            </div> */}
                     </form>
                 </div>
                 <div className={"tab-pane fade " + register} id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                     <form>
-
                         <div className="form-outline mb-4">
-                            <input type="text" id="registerName" className="form-control" />
-                            <label className="form-label" htmlFor="registerName">Name</label>
+                            <input type="text" id="registerName" className="form-control" onChange={(e) => setNamer(e.target.value)} />
+                            <label className="form-label" htmlFor="registerName" >Name</label>
                         </div>
 
-
                         <div className="form-outline mb-4">
-                            <input type="text" id="registerUsername" className="form-control" />
+                            <input type="text" id="registerUsername" className="form-control" onChange={(e) => setUser_namer(e.target.value)} />
                             <label className="form-label" htmlFor="registerUsername">Username</label>
                         </div>
 
-
                         <div className="form-outline mb-4">
-                            <input type="email" id="registerEmail" className="form-control" />
-                            <label className="form-label" htmlFor="registerEmail">Email</label>
+                            <input type="email" id="registerEmail" className="form-control" onChange={(e) => setEmailr(e.target.value)} />
+                            <label className="form-label" htmlFor="registerEmail" >Email</label>
                         </div>
 
-
                         <div className="form-outline mb-4">
-                            <input type="password" id="registerPassword" className="form-control" />
-                            <label className="form-label" htmlFor="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" className="form-control" onChange={(e) => setPasswordr(e.target.value)} />
+                            <label className="form-label" htmlFor="registerPassword" >Password</label>
                         </div>
 
-
                         <div className="form-outline mb-4">
-                            <input type="password" id="registerRepeatPassword" className="form-control" />
-                            <label className="form-label" htmlFor="registerRepeatPassword">Repeat password</label>
+                            <input type="password" id="registerRepeatPassword" className="form-control" onChange={(e) => setrepPasswordr(e.target.value)} />
+                            <label className="form-label" htmlFor="registerRepeatPassword" >Repeat password</label>
                         </div>
-
                         <div className="form-check d-flex justify-content-center mb-4">
                             {/* <input className="form-check-input me-2" type="checkbox" value="" id="registerCheck" defaultChecked
-                                aria-describedby="registerCheckHelpText" />
-                            <label className="form-check-label" htmlFor="registerCheck">
-                                I have read and agree to the terms
-                            </label> */}
+                                    aria-describedby="registerCheckHelpText" />
+                                <label className="form-check-label" htmlFor="registerCheck">
+                                    I have read and agree to the terms
+                                </label> */}
                         </div>
-
                         <div className="text-center mb-3">
                             <p>Sign up with:</p>
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-facebook-f"></i>
                             </button>
-
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-google"></i>
                             </button>
-
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-twitter"></i>
                             </button>
-
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-github"></i>
                             </button>
                         </div>
-
                         <button type="submit" className="btn btn-outline-warning ml-auto">Sign in</button>
                     </form>
                 </div>
-            </div>
+            </div >
 
-
-        </div>
+        </div >
     );
 };
 
-
 export default Login;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

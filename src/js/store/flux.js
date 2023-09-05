@@ -193,11 +193,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
-			CrearUsuario: async (email, password) => {
+			logUsuario: async (email, password) => {
 
 				try {
 
-					let data = await axios.post('https://sturdy-broccoli-jv7577j56q4fpw6x-3000.app.github.dev/login',
+					let data = await axios.post('https://special-trout-45v7vvj74pg2jjq5-3000.app.github.dev/login',
 						{
 
 							"email": email,
@@ -230,7 +230,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(tokenes)
 				try {
 
-					let data = await axios.get('https://sturdy-broccoli-jv7577j56q4fpw6x-3000.app.github.dev/demo', {
+					let data = await axios.get('https://special-trout-45v7vvj74pg2jjq5-3000.app.github.dev/demo', {
 						headers: { 'Authorization': 'Bearer ' + tokenes }
 
 					})
@@ -253,7 +253,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(tokenes)
 				try {
 
-					let data = await axios.get('https://sturdy-broccoli-jv7577j56q4fpw6x-3000.app.github.dev/valid-token', {
+					let data = await axios.get('https://special-trout-45v7vvj74pg2jjq5-3000.app.github.dev/valid-token', {
 						headers: { 'Authorization': 'Bearer ' + tokenes }
 
 
@@ -284,6 +284,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			regisUsuario: async (nameR, passwordR, user_nameR, emailR) => {
+
+				try {
+
+					let data = await axios.post('https://special-trout-45v7vvj74pg2jjq5-3000.app.github.dev/login',
+						{
+
+							"name": nameR,
+							"last_name": user_nameR,
+							"email": emailR,
+							"password": passwordR
+
+
+
+						})
+					console.log(data)
+					/* localStorage.setItem("token", data.data.access_token);
+					setStore({ auth: true }) */
+
+					return true;
+
+				} catch (error) {
+					console.log(error);
+
+					/* 	if (error.response.status === 484) {
+							alert("el usuario no existe ")
+						}
+	
+						if (error.response.status === 401) {
+							alert("la contraseña no existe")
+						} */
+					return false;
+				}
+			},
 
 
 
