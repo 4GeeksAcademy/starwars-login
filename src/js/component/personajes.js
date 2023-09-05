@@ -21,7 +21,7 @@ export const Personajes = props => {
   function volverlogin() {
 
     if (store.auth === false) {
-      navigate("/login")
+      navigate("/login#pills-login")
     }
   }
 
@@ -29,7 +29,7 @@ export const Personajes = props => {
   useEffect(() => {
     console.log("este  :" + store.auth)
     if (store.auth === false) {
-      navigate("/login")
+      navigate("/login#pills-login")
       volverlogin()
     }
 

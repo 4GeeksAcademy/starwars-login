@@ -7,7 +7,7 @@ import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
 export const Demo = () => {
-	
+
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ export const Demo = () => {
 	function volverlogin() {
 
 		if (store.auth === false) {
-			navigate("/login")
+			navigate("/login#pills-login")
 		}
 	}
 
